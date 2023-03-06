@@ -53,8 +53,8 @@ dispatch({type : "DELETE_USER",payload:id});
             const {dispatch} =value;
             return (
               <div className='col-md-8 mb-4'>
-                <div className='card'>
-                  <div className='card-header d-flex justify-content-between'>
+                <div className='card' >
+                  <div className='card-header d-flex justify-content-between' style={isVisible ? {backgroundColor:"#62848d",color:"white"}:null}>
                     <h4 className='d-inline' id='click' onClick={this.onClickEvent.bind(this)}>
                       {name}
                     </h4>
@@ -80,6 +80,7 @@ User.propTypes = {
   name: PropTypes.string.isRequired,
   department: PropTypes.string.isRequired,
   salary: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired
 }
 User.defaultProps = {
   name: "İsim",
