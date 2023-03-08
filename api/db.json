@@ -1,0 +1,29 @@
+{
+  "users": [
+    {
+      "id": "lezsw4sb",
+      "name": "Kazım",
+      "department": "Bilgi Teknolojileri",
+      "salary": "1000",
+      "error": true
+    },
+    {
+      "id": "lezswzdc",
+      "name": "Ali Veli",
+      "department": "Finans",
+      "salary": "1000"
+    },
+    {
+      "id": "lezsyj8d",
+      "name": "Kemalettin Taslak",
+      "department": "Pazarlama",
+      "salary": "4000"
+    },
+    {
+      "id": "lf082z8x",
+      "name": "sdgdsg",
+      "department": "asfdsf",
+      "salary": "dsgsdg"
+    }
+  ]
+}

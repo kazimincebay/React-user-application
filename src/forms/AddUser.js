@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React, { Component } from 'react'
 import UserConsumer from '../context';
 var uniqid=require("uniqid");
@@ -9,18 +10,25 @@ class AddUser extends Component {
     visible: true,
     name:"",
     department:"",
-    salary:""
+    salary:"",
+    error:false
   }
   onchangestatus = (e) => {
     this.setState({
       visible: !this.state.visible
     })
   }
+  validateForm=()=>{
+    const {name,salary,department}=this.state;
+    if (name===""||salary===""||department===""){
+      return false
+    }return true;
+  }
   changeValue=(e)=>{
     this.setState({
     [e.target.name]:e.target.value})
   }
-  formSubmit=(dispatch,e)=>{
+  formSubmit=async (dispatch,e)=>{
     e.preventDefault();
     const {name,department,salary}=this.state;
     const newUser={
@@ -29,8 +37,18 @@ class AddUser extends Component {
       department,
       salary
     }
-    dispatch({type:"ADD_USER",payload:newUser});
-    console.log(newUser)
+
+    if(!this.validateForm()){
+      this.setState({
+        error:true
+      })
+      return;
+    }
+    const response= await axios.post("http://localhost:3004/users",newUser)
+    dispatch({type:"ADD_USER",payload:response.data});
+    //redirect
+    this.props.history.push("/")
+    // console.log(newUser)
   }
   
   
@@ -39,7 +57,7 @@ class AddUser extends Component {
   render() {
     
     console.log(this.state)
-    const { visible,name,department,salary } = this.state;
+    const { visible,name,department,salary,error } = this.state;
     return <UserConsumer>
       {
         value=>{
@@ -51,9 +69,10 @@ class AddUser extends Component {
               {visible ? 
                 <div className="card">
                   <div className="card-header text-center">
-                    <h4>Add User Form</h4>
+                    <h4>Kullanıcı Ekleme Formu</h4>
                   </div>
                   <div className="card-body">
+                    {error? <div className='alert alert-danger'>Lütfen Bilgilerinizi Kontrol Ediniz</div>:null}
                     <form onSubmit={this.formSubmit.bind(this,dispatch)}>
                       <div className="form-group">
                         <label htmlFor="name">Ad</label>

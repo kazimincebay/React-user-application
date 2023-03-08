@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import { PropTypes } from "prop-types"
 import UserConsumer from '../context';
+import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 
 class User extends Component {
@@ -30,8 +32,9 @@ class User extends Component {
       isVisible: !this.state.isVisible
     })
   }
-  onDeleteUser=(dispatch,e)=>{
+  onDeleteUser=async (dispatch,e)=>{
 const {id}=this.props; 
+await axios.delete("http://localhost:3004/users/"+id)
 // Consumer Dispatch
 dispatch({type : "DELETE_USER",payload:id});
   }
@@ -41,10 +44,12 @@ dispatch({type : "DELETE_USER",payload:id});
 // eğer arrow function kullanılırsa bind işlemi otomatik yapılır
 // }
 
-
+componentWillUnmount(){
+  console.log("componentWillUnmount")
+}
 
   render() {
-    const { name, department, salary } = this.props;
+    const { id,name, department, salary } = this.props;
     const { isVisible } = this.state;
     return (
       <UserConsumer>
@@ -64,6 +69,7 @@ dispatch({type : "DELETE_USER",payload:id});
                   { isVisible ? <div className="card-body">
                     <p className="card-text">Departman : {department}</p>
                     <p className="card-text">Maaş : {salary}</p>
+                    <Link to={`edit/${id}`} className="btn btn-warning text-white">Güncelle</Link>
                   </div>:null }
                 </div>
               </div>
